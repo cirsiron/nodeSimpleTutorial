@@ -3,8 +3,11 @@ var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const {getRootPath} = require('../tools/index');
+var MongoStore = require('connect-mongo');
+const session = require('express-session');
 
+var setting = require('../setting');
+const {getRootPath} = require('../tools/index');
 const rootPath = getRootPath();
 
 const setMiddleware = function(app) {
@@ -14,13 +17,18 @@ const setMiddleware = function(app) {
 
 
 const addMiddleWare = function(app) {
+
     app.use(logger('dev'));
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(cookieParser());
+    app.use(cookieParser(setting.cookieSecret));// 与bodyParser配合
     app.use(express.static(path.join(rootPath, 'public')));
     
-    
+    app.use(session({
+        secret: setting.cookieSecret,
+        resave: true,
+        cookie: { secure: true },
+        saveUninitialized:true
+    }));
     
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
@@ -43,7 +51,6 @@ const addMiddleWare = function(app) {
 }
 
 module.exports = function(app) {
-   
     setMiddleware(app);
     addMiddleWare(app);
 }

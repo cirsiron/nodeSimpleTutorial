@@ -1,0 +1,25 @@
+.hero-unit {
+    margin: 100px auto;
+    width: 600px;
+    text-align: center;
+}
+.hero-unit > h2 {
+    display: inline-block;
+}
+.btn + .btn {
+    margin-left: 30px;
+}
+.btn {
+    width: 81px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 30px;
+    display: inline-block;
+    color: #DAF9CA;
+    text-align: center;
+    background: #82ABBA;
+    border-radius: 5px;
+}
+.btn-primary {
+    background: #57D2F7;
+}
